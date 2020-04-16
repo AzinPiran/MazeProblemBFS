@@ -104,52 +104,70 @@ def get_mouse_click_coor(x, y):
     #print(x, y)
     myScreen.getscreen().update()
     turtle.onscreenclick(get_mouse_click_coor)
-+def search(x,y):
-    frontierList.append((x, y))
+
+def search(x,y):
+
     solutionPath[x,y] = x,y
 
     path = maze.copy()
     for val in walls:
         path.remove(val)
 
-    while len(frontierList) > 0:  # exit while loop when frontierList queue equals zero
-        # time.sleep(0)
-        x, y = frontierList.popleft()  # pop next entry in the frontierList queue an assign to x and y location
+    frontierList.append((x, y))
 
-        if (x - 24, y) in path and (x - 24, y) not in visitedList:  # check the cell on the left
-            cell = (x - 24, y)
-            solutionPath[cell] = x, y  # backtracking routine [cell] is the previous cell. x, y is the current cell
-            # blue.goto(cell)        # identify frontierList cells
-            # blue.stamp()
-            frontierList.append(cell)  # add cell to frontierList list
-            visitedList.add((x - 24, y))  # add cell to visitedList list
 
-        if (x, y - 24) in path and (x, y - 24) not in visitedList:  # check the cell down
+    while len(frontierList) > 0:
+        x, y = frontierList.popleft() 
+
+        if (x, y + 24) in path and (x, y + 24) not in visitedList:  # check the cell on the up
+            cell = (x, y + 24)
+            solutionPath[cell] = x, y
+            frontierList.append(cell)
+            visitedList.add((x, y + 24))
+
+
+        if (x, y - 24) in path and (x, y - 24) not in visitedList:  # check the cell on the down
             cell = (x, y - 24)
             solutionPath[cell] = x, y
-            # blue.goto(cell)
-            # blue.stamp()
             frontierList.append(cell)
             visitedList.add((x, y - 24))
             # print(solutionPath)
 
-        if (x + 24, y) in path and (x + 24, y) not in visitedList:  # check the cell on the  right
+
+        if (x - 24, y) in path and (x - 24, y) not in visitedList: # check the cell on the left
+            cell = (x - 24, y)
+            solutionPath[cell] = x, y  
+            frontierList.append(cell) 
+            visitedList.add((x - 24, y)) 
+
+
+        if (x + 24, y) in path and (x + 24, y) not in visitedList:  # check the cell on the right
             cell = (x + 24, y)
             solutionPath[cell] = x, y
-            # blue.goto(cell)
-            # blue.stamp()
             frontierList.append(cell)
             visitedList.add((x + 24, y))
 
-        if (x, y + 24) in path and (x, y + 24) not in visitedList:  # check the cell up
-            cell = (x, y + 24)
-            solutionPath[cell] = x, y
-            # blue.goto(cell)
-            # blue.stamp()
-            frontierList.append(cell)
-            visitedList.add((x, y + 24))
+
         green.goto(x, y)
         green.stamp()
+
+def Backtrack(x, y):
+    yellow.goto(x, y)
+    yellow.stamp()
+    while (x, y) != (-588, 396):    #Start cell grid
+        yellow.goto(solutionPath[x, y])
+        yellow.stamp()
+        # print(solutionPath[x, y])
+        x, y = solutionPath[x, y]
+
+def BFS_Backtrack():
+    #BFS
+    StartPoint = maze[0]
+    search(*StartPoint)
+    #Back track
+    EndPoint = maze[-1]
+    Backtrack(*EndPoint)
+    exit()
 
 class GraySquare(turtle.Turtle):
     def __init__(self):
@@ -204,7 +222,7 @@ grid_row =  int(myScreen.Screen().numinput("Draw Maze", "Please Set your Rows nu
 grid_col =  int(myScreen.Screen().numinput("Draw Maze", "Please Set your Columns number:", 50, minval=1, maxval=50)) #Get [n] count grid columns from user
 
 
-+######  run!!! ############
+######  run!!! ############
 DrawEmptyGrid(grid_row,grid_col)
 MazeTolist(grid_row, grid_col)
 
