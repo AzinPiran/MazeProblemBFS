@@ -1,5 +1,6 @@
 import turtle
 import math
+from collections import deque
 
 screenSize_X = 1248 #best size for grid 30*50. I found these number by try and error
 screenSize_y = 864  #best size for grid 30*50. I found these number by try and error
@@ -103,6 +104,52 @@ def get_mouse_click_coor(x, y):
     #print(x, y)
     myScreen.getscreen().update()
     turtle.onscreenclick(get_mouse_click_coor)
++def search(x,y):
+    frontierList.append((x, y))
+    solutionPath[x,y] = x,y
+
+    path = maze.copy()
+    for val in walls:
+        path.remove(val)
+
+    while len(frontierList) > 0:  # exit while loop when frontierList queue equals zero
+        # time.sleep(0)
+        x, y = frontierList.popleft()  # pop next entry in the frontierList queue an assign to x and y location
+
+        if (x - 24, y) in path and (x - 24, y) not in visitedList:  # check the cell on the left
+            cell = (x - 24, y)
+            solutionPath[cell] = x, y  # backtracking routine [cell] is the previous cell. x, y is the current cell
+            # blue.goto(cell)        # identify frontierList cells
+            # blue.stamp()
+            frontierList.append(cell)  # add cell to frontierList list
+            visitedList.add((x - 24, y))  # add cell to visitedList list
+
+        if (x, y - 24) in path and (x, y - 24) not in visitedList:  # check the cell down
+            cell = (x, y - 24)
+            solutionPath[cell] = x, y
+            # blue.goto(cell)
+            # blue.stamp()
+            frontierList.append(cell)
+            visitedList.add((x, y - 24))
+            # print(solutionPath)
+
+        if (x + 24, y) in path and (x + 24, y) not in visitedList:  # check the cell on the  right
+            cell = (x + 24, y)
+            solutionPath[cell] = x, y
+            # blue.goto(cell)
+            # blue.stamp()
+            frontierList.append(cell)
+            visitedList.add((x + 24, y))
+
+        if (x, y + 24) in path and (x, y + 24) not in visitedList:  # check the cell up
+            cell = (x, y + 24)
+            solutionPath[cell] = x, y
+            # blue.goto(cell)
+            # blue.stamp()
+            frontierList.append(cell)
+            visitedList.add((x, y + 24))
+        green.goto(x, y)
+        green.stamp()
 
 class GraySquare(turtle.Turtle):
     def __init__(self):
@@ -140,6 +187,10 @@ class YellowSquare(turtle.Turtle):
 #init list
 maze = []
 walls = []
+path = []
+visitedList = set()
+frontierList = deque()
+solutionPath = {}
 
 #init colour square
 green = GreenSquare()
