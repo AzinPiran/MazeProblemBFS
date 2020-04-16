@@ -9,7 +9,7 @@ myScreen = turtle
 myScreen.speed(0)
 myScreen.color("#000000") #background color to white
 myScreen.hideturtle()
-myScreen.Screen().title("Azin BFS Maze Solving Program")
+myScreen.Screen().title("Azin Piran - BFS Maze Solving Program")
 myScreen.Screen().setup(width = screenSize_X,height = screenSize_y,startx=0, starty=0)  #setup the working screen
 
 topLeft_x = -1*(screenSize_X /2) + 24 #shift X location to the new position
@@ -57,7 +57,7 @@ def guide():
 
     x += 0
     y -= 24+12
-    text("*By left click in each cell of grid you can create walls. After finish maze design press [SPACE] button.", x,y, 10)
+    text("*By left click on each cell of the grid, you can build walls. After the design of the maze, press the [SPACE] button.", x,y, 10)
 
     x += 12
     y -= 12
