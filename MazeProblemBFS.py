@@ -28,7 +28,125 @@ def DrawEmptyGrid(grid_row,grid_col):
         myScreen.pendown()
         myScreen.goto(topLeft_x + col * cellDim, topLeft_y - grid_row * cellDim)
 
+class GreenSquare(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.color("green")
+        self.shape("square")
+        self.penup()
+        self.speed(0)
+
+def MazeTolist(grid_row,grid_col):
+    for y in range(grid_row):  # read in the grid line by line
+        for x in range(grid_col):
+            xx = (x*24) + topLeft_x + 12
+            yy = (y*24*-1) + topLeft_y - 12
+            maze.append((xx,yy))
+
+def text(message,x,y,size):
+    FONT = ('calibry', size, 'bold')
+    myScreen.penup()
+    myScreen.goto(x,y)
+    myScreen.write(message,align="left",font=FONT)
+
+def guide():
+    x = -588
+    y = -300
+
+    x += 0
+    y -= 24+12
+    text("*By left click in each cell of grid you can create walls. After finish maze design press [SPACE] button.", x,y, 10)
+
+    x += 12
+    y -= 12
+    blue.goto(x,y)
+    blue.stamp()
+    text("Start Point", x + 14,y-8, 10)
+
+    x += 110
+    y -= 0
+    red.goto(x,y)
+    red.stamp()
+    text("End Point", x + 14,y-8, 10)
+
+    x += 110
+    y -= 0
+    gray.goto(x,y)
+    gray.stamp()
+    text("Walls", x + 14,y-8, 10)
+
+    x += 110
+    y -= 0
+    green.goto(x,y)
+    green.stamp()
+    text("BFS visited", x + 14,y-8, 10)
+
+    x += 110
+    y -= 0
+    yellow.goto(x,y)
+    yellow.stamp()
+    text("Back-track path", x + 14,y-8, 10)
+
+
+class GraySquare(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.color("gray")
+        self.shape("square")
+        self.penup()
+        self.speed(0)
+
+class BlueSquare(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.color("blue")
+        self.shape("square")
+        self.penup()
+        self.speed(0)
+
+class RedSquare(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.color("red")
+        self.shape("square")
+        self.penup()
+        self.speed(0)
+
+class YellowSquare(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.color("yellow")
+        self.shape("square")
+        self.penup()
+        self.speed(0)
+
+
+#init list
+maze = []
+
+
+#init colour square
+green = GreenSquare()
+gray  = GraySquare()
+yellow = YellowSquare()
+red = RedSquare()
+blue = BlueSquare()
+
+#Get input m*n from user
 grid_row =  int(myScreen.Screen().numinput("Draw Maze", "Please Set your Rows number:", 30, minval=1, maxval=30)) #Get [m] count grid rows from user
 grid_col =  int(myScreen.Screen().numinput("Draw Maze", "Please Set your Columns number:", 50, minval=1, maxval=50)) #Get [n] count grid columns from user
 
+
++######  run!!! ############
 DrawEmptyGrid(grid_row,grid_col)
+MazeTolist(grid_row, grid_col)
+
+# Show Start point
+blue.goto(-588, 396)
+blue.stamp()
+
+# Show End point
+red.goto((maze[-1]))
+red.stamp()
+
+guide()
