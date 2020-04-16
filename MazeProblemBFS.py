@@ -239,6 +239,7 @@ guide()
 def main():
     turtle.listen()
     turtle.onscreenclick(get_mouse_click_coor) #get walls from user
+    turtle.Screen().onkey(BFS_Backtrack,"space") #set BFS and back-track
     turtle.mainloop()#get loop for more wall
 
 def exit():
