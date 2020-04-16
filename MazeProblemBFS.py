@@ -94,7 +94,7 @@ def get_mouse_click_coor(x, y):
     # Adjustancy
     adj_X = math.floor((x) / 24) * 24 + 12  # math.floor((x//((x//100)*100))+topLeft_x+12)#(math.floor(x//-400)+topLeft_x)
     adj_Y = math.floor( (y) / 24) * 24 + 12  # math.floor((y//((y//100)*100))+topLeft_y-12)#(math.floor(y//600)+topLeft_y)
-    print(adj_X, adj_Y)
+    #print(adj_X, adj_Y)
     if (adj_X, adj_Y) in maze and (adj_X, adj_Y) not in walls:  # check the cell down
         #print(adj_X, adj_Y)
         walls.append((adj_X, adj_Y))  # add coordinate to walls list
