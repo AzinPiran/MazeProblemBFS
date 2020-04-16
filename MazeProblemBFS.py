@@ -1,4 +1,5 @@
 import turtle
+import math
 
 screenSize_X = 1248 #best size for grid 30*50. I found these number by try and error
 screenSize_y = 864  #best size for grid 30*50. I found these number by try and error
@@ -87,6 +88,21 @@ def guide():
     yellow.stamp()
     text("Back-track path", x + 14,y-8, 10)
 
+def get_mouse_click_coor(x, y):
+    turtle.onscreenclick(None)
+    # Adjustancy
+    adj_X = math.floor((x) / 24) * 24 + 12  # math.floor((x//((x//100)*100))+topLeft_x+12)#(math.floor(x//-400)+topLeft_x)
+    adj_Y = math.floor( (y) / 24) * 24 + 12  # math.floor((y//((y//100)*100))+topLeft_y-12)#(math.floor(y//600)+topLeft_y)
+    print(adj_X, adj_Y)
+    if (adj_X, adj_Y) in maze and (adj_X, adj_Y) not in walls:  # check the cell down
+        #print(adj_X, adj_Y)
+        walls.append((adj_X, adj_Y))  # add coordinate to walls list
+        gray.goto(adj_X, adj_Y)  # send green sprite to screen location
+        gray.stamp()
+        #print(walls)
+    #print(x, y)
+    myScreen.getscreen().update()
+    turtle.onscreenclick(get_mouse_click_coor)
 
 class GraySquare(turtle.Turtle):
     def __init__(self):
@@ -123,7 +139,7 @@ class YellowSquare(turtle.Turtle):
 
 #init list
 maze = []
-
+walls = []
 
 #init colour square
 green = GreenSquare()
@@ -150,3 +166,13 @@ red.goto((maze[-1]))
 red.stamp()
 
 guide()
+
+def main():
+    turtle.listen()
+    turtle.onscreenclick(get_mouse_click_coor) #get walls from user
+    turtle.mainloop()#get loop for more wall
+
+def exit():
+    myScreen.Screen().exitonclick()
+
+main()
